@@ -1,0 +1,72 @@
+<template name="orderlist">
+  <view class="orderlist">
+    <scroll-view scroll-y="{{true}}">
+      <repeat  for="{{listData}}" item="item" index="i">
+        <view class="listitem">
+          <text class="listtitle">{{item.productName}}</text>
+          <view class="listdetail">
+            <text>投保单号</text>
+            <text>{{item.orderNo}}</text>
+          </view>
+          <view class="listdetail">
+            <text>投保人</text>
+            <text>{{item.creatorName}}</text>
+          </view>
+          <view class="listdetail">
+            <text>被保人</text>
+            <text>{{item.insuredName}}</text>
+          </view>
+        </view>
+        <view>
+          <text>{{'保费'+item.totalPremium}}</text>
+          <button type="default" size="defaultSize" @tap="deleteOrder" data-orderId="{{item.orderNo}}">删除</button>
+        </view>
+      </repeat>
+    </scroll-view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class Orderlist extends wepy.component {
+    props = {
+      listData:{
+        default:[]
+      }
+    }
+    data = {
+      list:[1,3,4,5]
+    }
+    methods = {
+      deleteOrder(event){
+        let id = event.currentTarget.dataset.orderid
+        console.log(id)
+      }
+    }
+    onLoad () {
+      console.log(this.listData)
+    }
+  }
+</script>
+<style lang="less">
+  .orderlist{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    .listtitle{
+      line-height:60rpx;
+    }
+    .listitem{
+      height:200rpx;
+      width:100%;
+      padding-left:20rpx;
+      box-sizing:border-box;
+      .listdetail{
+        text:nth-child(1){
+          width:130rpx;
+          display:inline-block;
+        }
+      }
+    }
+  }
+</style>

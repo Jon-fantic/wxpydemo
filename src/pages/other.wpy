@@ -1,0 +1,20 @@
+<template name="other">
+  <view @tap="gonext">
+    其他
+    
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class Other extends wepy.page {
+
+    methods = {
+      gonext (){
+        wx.navigateTo({
+          url: 'text1'
+        })
+      }
+      
+    }
+  }
+</script>

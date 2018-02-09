@@ -1,0 +1,119 @@
+<style lang="less">
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+page{
+  font-size:28rpx;
+  height:100%;
+  overflow:hidden;
+}
+</style>
+
+<script>
+import wepy from 'wepy'
+import 'wepy-async-function'
+
+
+export default class extends wepy.app {
+  config = {
+    pages: [
+      'pages/index',
+      'pages/text1',
+      'pages/other',
+      'pages/mine',
+      'pages/list',
+
+    ],
+    "tabBar": {
+      "list": [{
+        "pagePath": "pages/index",
+        "text": "首页",
+        "index":0,
+        "iconPath": './image/1.png',
+        "selectedIconPath": './image/4.png'
+      },{
+        "pagePath": "pages/other",
+        "text": "其他",
+        "index":1,
+        "iconPath": './image/2.png',
+        "selectedIconPath": './image/4.png'
+      },
+      {
+        "pagePath": "pages/list",
+        "text": "列表",
+        "index":2,
+        "iconPath": './image/3.png',
+        "selectedIconPath": './image/4.png'
+      }]
+    },
+    
+    window: {
+      backgroundTextStyle: 'light',
+      navigationBarBackgroundColor: '#fff',
+      navigationBarTitleText: 'WeChat',
+      navigationBarTextStyle: 'black'
+    }
+  };
+
+  globalData = {
+    userInfo: null
+  }
+
+  constructor () {
+    super()
+    this.use('requestfix')
+  }
+
+  onLaunch() {
+    this.testAsync()
+  }
+  requestData (url,method,data){
+    return new Promise ((resolve,reject)=>{
+      wx.request({
+        url,
+        data,
+        method, // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
+        header: {'content-type': 'application/json'}, // 设置请求的 header
+        success: function(res){
+          //注意：可以对参数解密等处理
+          resolve(res)
+        },
+        fail: function(err) {
+          reject(err)
+        },
+      })
+    })
+  }
+  sleep (s) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve('promise resolved')
+      }, s * 1000)
+    })
+  }
+
+  async testAsync () {
+    const data = await this.sleep(3)
+    console.log(data)
+  }
+
+  getUserInfo(cb) {
+    const that = this
+    if (this.globalData.userInfo) {
+      return this.globalData.userInfo
+    }
+    wepy.getUserInfo({
+      success (res) {
+        that.globalData.userInfo = res.userInfo
+        cb && cb(res.userInfo)
+      }
+    })
+  }
+  
+}
+</script>

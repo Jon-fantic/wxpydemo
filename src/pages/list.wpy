@@ -1,0 +1,38 @@
+<template name="list">
+  <view>
+    <c_orderlist :listData.sync="listData"></c_orderlist>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import c_orderlist from '../components/orderlist'
+  import {orderList} from '../api/api'
+  export default class List extends wepy.page {
+    data = {
+      pageSize:10,
+      pageNum:1,
+      listData:[]
+    }
+    getListData() {
+      let url  = orderList+"/?pageNum=" + this.pageNum + "&pageSize=" + this.pageSize
+      this.$parent.requestData(url,"POST",{
+        policyType:0,
+        userId:162
+      }).then(res=>{
+        if(res.data.status=="OK"){
+          this.listData = res.data.data.list
+          this.$apply()
+          console.log(this.listData)
+        }
+      })
+    }
+    methods = {
+    }
+    components = {
+      c_orderlist
+    }
+    onLoad (){
+      this.getListData()
+    }
+  }
+</script>

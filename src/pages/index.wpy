@@ -1,0 +1,42 @@
+<template name="text1">
+  <view @tap="gonext">
+    {{mes}}
+    <navigator url="text1" open-type="navigateTo"/>11111111
+    </navigator>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import c_footer from '../components/footer'
+  export default class Index extends wepy.page {
+    data = {
+      mes: "hehe"
+    }  
+    components = {
+      c_footer
+    }
+    component = {
+
+    }
+    methods = {
+      gonext (){
+      //   wx.navigateTo({
+      //   url: 'text1'
+      // })
+      }
+      
+    }
+    
+    onLoad (){
+      wx.setTabBarStyle({
+        color: '#FF0000',
+        selectedColor: '#00BD96',
+        backgroundColor: '#F5F5F5',
+        borderStyle: 'white'
+      })
+    }
+    onTabItemTap (item){
+      console.log(item)
+    }
+  }
+</script>
